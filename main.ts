@@ -55,7 +55,7 @@ let magic_statusbar: StatusBarSprite = null
 let controlset = 0
 let mySprite: platformer.PlatformerSprite = null
 scene.setBackgroundColor(9)
-tiles.setCurrentTilemap(tilemap`level2`)
+tiles.setCurrentTilemap(tilemap`level`)
 mySprite = platformer.create(img`
     . . . . f f f f f f f f . . . . 
     . . . f 2 f e e e e f f f . . . 
@@ -249,7 +249,17 @@ Health_textsprite.setFlag(SpriteFlag.RelativeToCamera, true)
 Magic_textsprite.setPosition(80, 33)
 Health_textsprite.setPosition(80, 15)
 game.onUpdate(function () {
-    magic_statusbar.value += 0.1
+    if (In_Game) {
+        if (controlset == 0) {
+            if (controller.down.isPressed()) {
+            	
+            } else {
+                magic_statusbar.value += 0.1
+            }
+        } else {
+            magic_statusbar.value += 0.1
+        }
+    }
 })
 forever(function () {
     if (In_Game) {
@@ -260,10 +270,12 @@ forever(function () {
         } else if (controlset == 0) {
             HUD_sprite.image.fill(11)
             spriteutils.drawTransparentImage(assets.image`Control HUD MOVE`, HUD_sprite.image, 0, 0)
-            if (controller.down.isPressed()) {
-                if (magic_statusbar.value >= 1) {
-                    magic_statusbar.value += -1
+            if (magic_statusbar.value >= 0.75) {
+                if (controller.down.isPressed()) {
+                    magic_statusbar.value += -0.75
                     platformer.moveSprite(mySprite, true, 175)
+                } else {
+                    platformer.moveSprite(mySprite, true, 60)
                 }
             } else {
                 platformer.moveSprite(mySprite, true, 60)
