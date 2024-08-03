@@ -2,7 +2,14 @@ namespace SpriteKind {
     export const HUD = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-	
+    if (In_Game) {
+        if (controlset == 1) {
+            if (magic_statusbar.value >= 50) {
+                magic_statusbar.value += -50
+                health_statusbar.value += 25
+            }
+        }
+    }
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     controlset += 1
@@ -38,6 +45,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
                     projectile2 = sprites.createProjectileFromSprite(assets.image`myImage0`, mySprite, -150, 0)
                     sprites.setDataNumber(projectile2, "damage", 15)
                 }
+                magic_statusbar.value += -10
             }
         }
     }
@@ -52,25 +60,26 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 let projectile2: Sprite = null
 let In_Game = false
 let magic_statusbar: StatusBarSprite = null
+let health_statusbar: StatusBarSprite = null
 let controlset = 0
 let mySprite: platformer.PlatformerSprite = null
 scene.setBackgroundColor(9)
 tiles.setCurrentTilemap(tilemap`level`)
 mySprite = platformer.create(img`
     . . . . f f f f f f f f . . . . 
-    . . . f 2 f e e e e f f f . . . 
-    . . f 2 2 2 f e e e e f f f . . 
-    . . f e e e e f f e e e f f . . 
-    . f e 2 2 2 2 e e f f f f e f . 
-    . f 2 e f f f f 2 2 2 e f 2 f . 
-    . f f f e e e f f f f f f f f . 
-    . f e e 4 4 f b e 4 4 e f f f . 
-    . . f e d d f 1 4 d 4 e e f . . 
-    . . . f d d d d 4 e e e f . . . 
-    . . . f e 4 4 4 e e f f f . . . 
-    . . . f 2 2 2 e d d 4 2 f . . . 
-    . . . f 2 2 2 e d d e 2 f . . . 
-    . . . f 5 5 4 f e e f 5 f . . . 
+    . . . f f f f f f f f f f . . . 
+    . . f f f f f f f f f f f f . . 
+    . . f f f f f f f f f f f f . . 
+    . f f f f f f f f f f f f f f . 
+    . f f f f f f f f f f f f f f . 
+    . f f f f f f f f f f f f f f . 
+    . f f f f f f f f f f f f f f . 
+    . . f f f f f f f f f f f f . . 
+    . . . f f f f f f f f f f . . . 
+    . . . f f f f f f f f f f . . . 
+    . . . f f f f f f f f f f . . . 
+    . . . f f f f f f f f f f . . . 
+    . . . f f f f f f f f f f . . . 
     . . . . f f f f f f f f . . . . 
     . . . . . . f f f f . . . . . . 
     `, SpriteKind.Player)
@@ -225,14 +234,15 @@ platformer.rule(platformer.PlatformerSpriteState.FacingLeft, platformer.Platform
 )
 platformer.moveSprite(mySprite, true, 60)
 platformer.setFeatureEnabled(platformer.PlatformerFeatures.JumpOnUpPressed, true)
-platformer.setFeatureEnabled(platformer.PlatformerFeatures.JumpOnAPressed, false)
+platformer.setFeatureEnabled(platformer.PlatformerFeatures.JumpOnAPressed, true)
+platformer.setConstantDefault(platformer.PlatformerConstant.MaxJumpHeight, 50)
 let HUD_sprite = sprites.create(image.create(160, 34), SpriteKind.HUD)
 HUD_sprite.image.fill(11)
 spriteutils.drawTransparentImage(assets.image`Control HUD MOVE`, HUD_sprite.image, 0, 0)
 HUD_sprite.setFlag(SpriteFlag.RelativeToCamera, true)
 HUD_sprite.setPosition(80, 103)
-controlset = 1
-let health_statusbar = statusbars.create(140, 7, StatusBarKind.Health)
+controlset = 0
+health_statusbar = statusbars.create(140, 7, StatusBarKind.Health)
 magic_statusbar = statusbars.create(140, 7, StatusBarKind.Magic)
 magic_statusbar.setColor(8, 11)
 health_statusbar.setColor(7, 2, 6)
@@ -248,6 +258,25 @@ Magic_textsprite.setFlag(SpriteFlag.RelativeToCamera, true)
 Health_textsprite.setFlag(SpriteFlag.RelativeToCamera, true)
 Magic_textsprite.setPosition(80, 33)
 Health_textsprite.setPosition(80, 15)
+let Enemy_sprite = sprites.create(img`
+    . . f f f . . . . . . . . f f f 
+    . f f c c . . . . . . f c b b c 
+    f f c c . . . . . . f c b b c . 
+    f c f c . . . . . . f b c c c . 
+    f f f c c . c c . f c b b c c . 
+    f f c 3 c c 3 c c f b c b b c . 
+    f f b 3 b c 3 b c f b c c b c . 
+    . c b b b b b b c b b c c c . . 
+    . c 1 b b b 1 b b c c c c . . . 
+    c b b b b b b b b b c c . . . . 
+    c b c b b b c b b b b f . . . . 
+    f b 1 f f f 1 b b b b f c . . . 
+    f b b b b b b b b b b f c c . . 
+    . f b b b b b b b b c f . . . . 
+    . . f b b b b b b c f . . . . . 
+    . . . f f f f f f f . . . . . . 
+    `, SpriteKind.Enemy)
+sprites.setDataNumber(Enemy_sprite, "health", 50)
 game.onUpdate(function () {
     if (In_Game) {
         if (controlset == 0) {
