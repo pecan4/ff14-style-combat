@@ -1,5 +1,5 @@
 {
-    "name": "ff14 style combat (again...)",
+    "name": "ff14 style combat",
     "description": "",
     "dependencies": {
         "device": "*",
@@ -12,14 +12,14 @@
         "arcade-platformer": "github:microsoft/arcade-platformer#v0.0.10",
         "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1",
         "pxt-sight": "github:felixtsu/pxt-sight#v0.2.2",
-        "Inventory": "github:UnsignedArduino/Inventory#v1.1.1",
         "block-menu-icon": "github:AqeeAqee/arcade-custom-menu#v0.0.3",
         "pxt-zoom": "github:kiwiphoenix364/pxt-zoom#v2.0.1",
         "BetterSettings": "github:sargedev/bettersettings#2023.5.1",
         "arcade-fancy-text": "github:riknoll/arcade-fancy-text#v0.1.1",
         "Control": "github:sargedev/control#4d59722d84a639a38ab19df701397c883f2119c2",
         "arcade-sprite-events": "github:riknoll/arcade-sprite-events#dc93eec8412053ebbd2b8f01cf5b6ae285d28900",
-        "arcade-premium-life": "github:jwunderl/arcade-premium-life#v0.2.1"
+        "arcade-premium-life": "github:jwunderl/arcade-premium-life#v0.2.1",
+        "arcade-sprite-util": "github:jwunderl/arcade-sprite-util#v0.4.1"
     },
     "files": [
         "main.blocks",
@@ -35,7 +35,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.12.55",
+        "target": "2.0.40",
         "targetId": "arcade"
     },
     "supportedTargets": [
